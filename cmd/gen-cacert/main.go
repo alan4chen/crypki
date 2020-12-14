@@ -18,6 +18,7 @@ import (
 )
 
 var cfg string
+var out string
 
 func getIPs() (ips []net.IP, err error) {
 	ifaces, err := net.Interfaces()
@@ -45,6 +46,7 @@ func getIPs() (ips []net.IP, err error) {
 }
 func main() {
 	flag.StringVar(&cfg, "config", "", "CA cert configuration file")
+	flag.StringVar(&out, "outputPath", "/tmp/509_ca.crt", "The output path of the generated CA cert")
 	flag.Parse()
 	log.SetFlags(log.LstdFlags | log.Lshortfile)
 
@@ -80,7 +82,7 @@ func main() {
 		UserPinPath:            cc.UserPinPath,
 		KeyLabel:               cc.KeyLabel,
 		SessionPoolSize:        2,
-		X509CACertLocation:     "/tmp/509_ca.crt",
+		X509CACertLocation:     out,
 		CreateCACertIfNotExist: true,
 		Country:                cc.Country,
 		State:                  cc.State,
